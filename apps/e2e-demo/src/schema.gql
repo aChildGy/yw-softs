@@ -1,0 +1,50 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Foo {
+  id: Int!
+}
+
+type Too {
+  id: Int!
+
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type Query {
+  foo(id: Int!): Foo!
+  too(id: Int!): Too!
+}
+
+type Mutation {
+  createFoo(createFooInput: CreateFooInput!): Foo!
+  updateFoo(updateFooInput: UpdateFooInput!): Foo!
+  removeFoo(id: Int!): Foo!
+  createToo(createTooInput: CreateTooInput!): Too!
+  updateToo(updateTooInput: UpdateTooInput!): Too!
+  removeToo(id: Int!): Too!
+}
+
+input CreateFooInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateFooInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateTooInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateTooInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}

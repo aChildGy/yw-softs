@@ -1,0 +1,3 @@
+export const CONNECTION_NAME = 'CONNECTION_NAME'; //'';
+
+export const EXCEPTION_LOGGER_ENTITY = 'EXCEPTION_LOGGER_ENTITY'; //'';

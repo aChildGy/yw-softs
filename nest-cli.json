@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "apps/tuiyou/src",
+  "monorepo": true,
+  "root": "apps/tuiyou",
+  "compilerOptions": {
+    "plugins": [
+      {
+        "name": "@nestjs/graphql",
+        "options": {
+          "typeFileNameSuffix": [
+            ".input.ts",
+            ".args.ts",
+            ".entity.ts",
+            ".model.ts"
+          ],
+          "introspectComments": true
+        }
+      }
+    ],
+    "assets": [
+      {
+        "include": "**/*.env"
+      },
+      {
+        "include": "**/*.gql"
+      }
+    ],
+    "watchAssets": true,
+    "webpack": true,
+    "tsConfigPath": "apps/tuiyou/tsconfig.app.json"
+  },
+  "projects": {
+    "tuiyou": {
+      "type": "application",
+      "root": "apps/tuiyou",
+      "entryFile": "main",
+      "sourceRoot": "apps/tuiyou/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/tuiyou/tsconfig.app.json"
+      }
+    },
+    "databases": {
+      "type": "library",
+      "root": "libs/databases",
+      "entryFile": "index",
+      "sourceRoot": "libs/databases/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/databases/tsconfig.lib.json"
+      }
+    },
+    "app-init": {
+      "type": "library",
+      "root": "libs/app-init",
+      "entryFile": "index",
+      "sourceRoot": "libs/app-init/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/app-init/tsconfig.lib.json"
+      }
+    },
+    "logger": {
+      "type": "library",
+      "root": "libs/logger",
+      "entryFile": "index",
+      "sourceRoot": "libs/logger/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/logger/tsconfig.lib.json"
+      }
+    },
+    "auth": {
+      "type": "library",
+      "root": "libs/auth",
+      "entryFile": "index",
+      "sourceRoot": "libs/auth/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/auth/tsconfig.lib.json"
+      }
+    },
+    "utils": {
+      "type": "library",
+      "root": "libs/utils",
+      "entryFile": "index",
+      "sourceRoot": "libs/utils/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/utils/tsconfig.lib.json"
+      }
+    },
+    "casl": {
+      "type": "library",
+      "root": "libs/casl",
+      "entryFile": "index",
+      "sourceRoot": "libs/casl/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/casl/tsconfig.lib.json"
+      }
+    },
+    "e2e-demo": {
+      "type": "application",
+      "root": "apps/e2e-demo",
+      "entryFile": "main",
+      "sourceRoot": "apps/e2e-demo/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/e2e-demo/tsconfig.app.json"
+      }
+    },
+    "redis": {
+      "type": "library",
+      "root": "libs/redis",
+      "entryFile": "index",
+      "sourceRoot": "libs/redis/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/redis/tsconfig.lib.json"
+      }
+    }
+  }
+}

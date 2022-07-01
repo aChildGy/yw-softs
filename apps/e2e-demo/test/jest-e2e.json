@@ -1,0 +1,28 @@
+{
+  "moduleFileExtensions": ["js", "json", "ts"],
+  "testEnvironment": "node",
+  "testRegex": ".e2e\\.spec.ts$",
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "globals": {
+    "ts-jest": {
+      "astTransformers": {
+        "before": ["./apps/e2e-demo/test/graphql.cli-plugin.transformer.js"]
+      }
+    }
+  },
+  "rootDir": "../../../",
+  "roots": [
+    "<rootDir>/apps/",
+    "<rootDir>/libs/"
+  ],
+  "moduleNameMapper": {
+    "^@app/databases(|/.*)$": "<rootDir>/libs/databases/src/$1",
+    "^@app/app-init(|/.*)$": "<rootDir>/libs/app-init/src/$1",
+    "^@app/logger(|/.*)$": "<rootDir>/libs/logger/src/$1",
+    "^@app/auth(|/.*)$": "<rootDir>/libs/auth/src/$1",
+    "^@app/utils(|/.*)$": "<rootDir>/libs/utils/src/$1",
+    "^@app/casl(|/.*)$": "<rootDir>/libs/casl/src/$1"
+  }
+}
