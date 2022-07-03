@@ -13,6 +13,7 @@ import { RedisService } from '@app/redis/redis.service';
 export class UsersResolver {
   constructor(
     private readonly usersService: UsersService, // private readonly redisService: RedisService,
+    private readonly redisService: RedisService,
   ) {}
 
   /**
@@ -45,8 +46,8 @@ export class UsersResolver {
     @Args('id', { type: () => Int }) id: number,
     @GqlRequestCtx() reqCtx: IRequestCtx,
   ) {
-    // const JsonStore = await this.redisService.getJsonStore();
-    // await JsonStore.set('123', '456', 60);
+    const JsonStore = await this.redisService.getJsonStore();
+    await JsonStore.set('123', '456', 60);
 
     reqCtx.logger.log(`----------UsersResolver.findOne`, UsersResolver.name);
     return this.usersService.findOne(reqCtx, id);
