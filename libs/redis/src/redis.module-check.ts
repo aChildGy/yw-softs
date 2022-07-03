@@ -4,7 +4,7 @@ import {
   TimeSeriesDuplicatePolicies,
   TimeSeriesEncoding,
 } from 'redis';
-import { RedisClient } from '../constants';
+import { RedisClient } from './interfaces/redis.interface';
 
 export const CheckRedisModule = async (client: RedisClient) => {
   const msg = '服务启动失败，模块功能校验未通过';
@@ -83,7 +83,7 @@ async function checkRediTimeSeriesModule(client: RedisClient, msg: string) {
   const testKey = `test-redis-time-series${Date.now()}`;
 
   try {
-    // 验证redis-json模块
+    // 验证redis-TimeSeries模块
     const created = await client.ts.create(testKey, {
       RETENTION: 86400000, // 1 day in milliseconds
       ENCODING: TimeSeriesEncoding.UNCOMPRESSED, // No compression

@@ -3,14 +3,6 @@
  */
 // export const REDIS_CLIENT_COUNT = 1;
 
-import {
-  RedisClientType,
-  RedisDefaultModules,
-  RedisFunctions,
-  RedisModules,
-  RedisScripts,
-} from 'redis';
-
 export const REDIS_CLIENT = 'REDIS_CLIENT';
 
 // type ClientIndex<T> = {
@@ -30,15 +22,3 @@ export const RedisStorePrefix = {
   // 限流器相关存储
   throttlerStore: 'throttlerStore',
 };
-
-export interface RedisStore {
-  set(key: string, val: unknown, ttl: number): void;
-  get(key: string): unknown;
-  del(key: string): void;
-}
-
-export type RedisClient = RedisClientType<
-  RedisDefaultModules & RedisModules,
-  RedisFunctions,
-  RedisScripts
->;

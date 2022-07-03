@@ -6,11 +6,13 @@ import {
 } from '@nestjs/common';
 import { ModuleRef } from '@nestjs/core';
 import {
-  REDIS_CLIENT,
-  RedisStore,
-  RedisStorePrefix,
   RedisClient,
-} from '../constants';
+  RedisJSON,
+  RedisJSONStore,
+  RedisStringStore,
+} from './interfaces/redis.interface';
+import { REDIS_CLIENT, RedisStorePrefix } from './constants';
+
 import { CheckRedisModule } from './redis.module-check';
 
 @Injectable()
@@ -38,15 +40,19 @@ export class RedisService implements OnModuleInit, OnApplicationBootstrap {
     await CheckRedisModule(client);
   }
 
-  async getJsonStore(): Promise<RedisStore> {
+  async getJsonStore(): Promise<RedisJSONStore> {
     const client = this.redisClient;
-    console.log(client, RedisStorePrefix.JsonStore);
+
     return {
-      set(key, val, ttl) {
-        //TODO
+      async set(key, path, json, opt): Promise<'OK' | null> {
+        const JsonKey = `${RedisStorePrefix.JsonStore}-${key}`;
+        const result = await client.json.set(JsonKey, path, json, opt);
+
+        return result;
       },
-      get(key) {
+      async get(key: string, path: string): Promise<RedisJSON> {
         //TODO
+        return null;
       },
       del(key) {
         //TODO

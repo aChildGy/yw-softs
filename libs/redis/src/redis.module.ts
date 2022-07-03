@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { RedisConfigOptions } from './redis.config.options.interface';
 import { RedisService } from './redis.service';
 import { createClient } from 'redis';
-import { REDIS_CLIENT } from '../constants';
+import { REDIS_CLIENT } from './constants';
 
 // 动态模块模式 register方法 可以传递参数，动态返回DynamicModule
 @Module({})

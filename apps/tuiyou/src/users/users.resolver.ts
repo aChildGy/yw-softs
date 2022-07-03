@@ -8,6 +8,7 @@ import { Role } from './constants';
 import { CryptoUtils } from '@app/utils';
 import { SkipThrottle } from '@nestjs/throttler';
 import { RedisService } from '@app/redis/redis.service';
+import { RedisJSON } from '@app/redis/interfaces/redis.interface';
 
 @Resolver(() => User)
 export class UsersResolver {
@@ -47,7 +48,10 @@ export class UsersResolver {
     @GqlRequestCtx() reqCtx: IRequestCtx,
   ) {
     const JsonStore = await this.redisService.getJsonStore();
-    await JsonStore.set('123', '456', 60);
+    const obj = { ...reqCtx.user, payPassword: 11 };
+    const result = await JsonStore.set(`user-${reqCtx.user.id}`, '$', obj, {
+      XX: true,
+    });
 
     reqCtx.logger.log(`----------UsersResolver.findOne`, UsersResolver.name);
     return this.usersService.findOne(reqCtx, id);

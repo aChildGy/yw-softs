@@ -1,3 +1,4 @@
+import { RedisService } from '@app/redis/redis.service';
 import { CryptoUtils, DateUtils } from '@app/utils';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Role } from './constants';
@@ -39,6 +40,7 @@ describe('UsersResolver', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         UsersResolver,
+        RedisService,
         {
           provide: UsersService,
           useValue: {
