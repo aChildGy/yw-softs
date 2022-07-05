@@ -1,7 +1,7 @@
 import { AppLogger } from '@app/logger';
 import { IAuthUserObject } from './auth.user.object.interface';
 
-export interface IRequestCtx {
+export interface IRequestCtx<T = IAuthUserObject> {
   /**
    * 日志对象(每个请求，新new一个对象)
    */
@@ -10,5 +10,5 @@ export interface IRequestCtx {
   /**
    * 登录用户信息
    */
-  user?: IAuthUserObject;
+  user?: T;
 }

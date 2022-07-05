@@ -85,9 +85,15 @@ export class UsersService implements IAuthUserService {
     return await this.findOne(reqCtx, username);
   }
 
-  findAll() {
+  async findAll(reqCtx: IRequestCtx) {
     // this.logger.error('------------->,This action returns all users', 'stack');
-    return `This action returns all users`;
+    const userRepos = this.userRepository;
+
+    return await userRepos.find({
+      relations: {
+        roles: true,
+      },
+    });
   }
 
   update(id: number, updateUserInput: UpdateUserInput) {

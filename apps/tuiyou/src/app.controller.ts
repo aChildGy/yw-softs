@@ -28,7 +28,12 @@ export class AppController {
   @PublicApi()
   async login(@Request() req) {
     // JWT TOKEN方式
-    return this.authService.login(req.user);
+    const JWTData = {
+      ...req.user,
+      username: req.user.username,
+      sub: req.user.id,
+    };
+    return this.authService.generateAccessToken(JWTData);
   }
 
   @Get('profile')

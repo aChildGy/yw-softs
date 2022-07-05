@@ -26,11 +26,11 @@ export class RedisService implements OnModuleInit, OnApplicationBootstrap {
 
     const client = this.moduleRef.get(REDIS_CLIENT);
 
+    this.redisClient = client;
+
     client.on('error', (err) => logger.error(REDIS_CLIENT, err));
 
     await client.connect();
-
-    this.redisClient = client;
   }
 
   async onApplicationBootstrap() {
@@ -46,16 +46,18 @@ export class RedisService implements OnModuleInit, OnApplicationBootstrap {
     return {
       async set(key, path, json, opt): Promise<'OK' | null> {
         const JsonKey = `${RedisStorePrefix.JsonStore}-${key}`;
-        const result = await client.json.set(JsonKey, path, json, opt);
-
+        const result = await client.json.set(JsonKey, path, json, opt || null);
         return result;
       },
       async get(key: string, path: string): Promise<RedisJSON> {
-        //TODO
-        return null;
+        const JsonKey = `${RedisStorePrefix.JsonStore}-${key}`;
+        const result = await client.json.get(JsonKey, { path });
+        return result;
       },
-      del(key) {
-        //TODO
+      async del(key, path: string): Promise<number> {
+        const JsonKey = `${RedisStorePrefix.JsonStore}-${key}`;
+        const result = await client.json.del(JsonKey, path);
+        return <number>result;
       },
     };
   }

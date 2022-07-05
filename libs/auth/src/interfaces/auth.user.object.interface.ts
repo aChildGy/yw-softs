@@ -1,5 +1,5 @@
 export interface IAuthUserObject {
-  id: number | string;
+  id?: number | string;
   username: string;
   password: string;
 }

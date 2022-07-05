@@ -12,6 +12,7 @@ export class AuthModule {
   static register(authModuleOptions: AuthModuleOptions): DynamicModule {
     return {
       module: AuthModule,
+      global: true,
       imports: [
         JwtModule.register({
           secret: authModuleOptions.jwtOptions.secret,

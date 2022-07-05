@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import {
   BaseUserDTOFields,
   IAuthUserObject,
@@ -61,14 +61,45 @@ export class AuthService {
     return JWTData;
   }
 
-  async login(user: IJWTUserObject) {
-    const JWTData: IJWTUserObject = {
-      ...user,
-      username: user.username,
-      sub: user.id,
-    };
+  async login(reqCtx: IRequestCtx, loginData: IAuthUserObject) {
+    const username = loginData.username;
+    const password = loginData.password;
+
+    const user: IAuthUserObject = await this.userService.findUserByUsername(
+      reqCtx,
+      username,
+    );
+
+    if (user && (await CryptoUtils.compareHash(password, user.password))) {
+      reqCtx.logger.debug(
+        `用户名密码输入正确，用户名: ${username}`,
+        AuthService.name,
+      );
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { password, ...result } = user;
+
+      const JWTData: IJWTUserObject = {
+        ...result,
+        username: user.username,
+        sub: user.id,
+      };
+
+      return await this.generateAccessToken(JWTData);
+
+      // return {
+      //   access_token: await CryptoUtils.encrypt(
+      //     `Bearer ${this.jwtService.sign(JWTData)}`,
+      //     this.authModuleOptions.cryptoOptions.sign,
+      //     this.authModuleOptions.cryptoOptions.iv,
+      //   ),
+      // };
+    }
+    throw new UnauthorizedException();
+  }
+
+  async generateAccessToken(JWTData: IJWTUserObject) {
     return {
-      access_token: await CryptoUtils.encrypt(
+      accessToken: await CryptoUtils.encrypt(
         `Bearer ${this.jwtService.sign(JWTData)}`,
         this.authModuleOptions.cryptoOptions.sign,
         this.authModuleOptions.cryptoOptions.iv,

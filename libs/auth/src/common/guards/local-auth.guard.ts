@@ -1,4 +1,5 @@
-﻿import { Injectable } from '@nestjs/common';
+﻿import { ExecutionContext, Injectable } from '@nestjs/common';
+import { GqlContextType, GqlExecutionContext } from '@nestjs/graphql';
 import { AuthGuard } from '@nestjs/passport';
 import { LOCAL_STRATEGY } from '../../constants';
 
@@ -7,4 +8,13 @@ import { LOCAL_STRATEGY } from '../../constants';
  * 通过授权的请求，在request对象上会自动添加user属性
  */
 @Injectable()
-export class LocalAuthGuard extends AuthGuard(LOCAL_STRATEGY) {}
+export class LocalAuthGuard extends AuthGuard(LOCAL_STRATEGY) {
+  getRequest(context: ExecutionContext) {
+    if (context.getType<GqlContextType>() === 'graphql') {
+      const ctx = GqlExecutionContext.create(context);
+      return ctx.getContext().req;
+    } else if (context.getType() === 'http') {
+      return context.switchToHttp().getRequest();
+    }
+  }
+}
