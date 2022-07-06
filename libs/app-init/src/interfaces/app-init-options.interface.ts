@@ -1,5 +1,6 @@
 import { ConfigOptions } from './config-options.interface';
 import { GraphQLOptions } from './graphql-options.interface';
+import { ThrottlerOptions } from './throttler-options.interface';
 
 // ConfigFactory的源码，供参考学习之用
 
@@ -27,5 +28,5 @@ export interface AppInitOptions {
    *    yws_app_throttle_ttl -- 每个请求/接口将在存储中持续的秒数, 默认60
    *    yws_app_throttle_limit -- TTL 限制内的最大请求数, 默认10
    */
-  throttler?: boolean;
+  throttlerOptions?: ThrottlerOptions;
 }

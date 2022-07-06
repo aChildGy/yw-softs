@@ -75,7 +75,7 @@ export class AppInitModule {
     }
 
     // 应用限流器
-    if (appInitOptions.throttler) {
+    if (appInitOptions.throttlerOptions) {
       imports.push(
         ThrottlerModule.forRootAsync({
           imports: [ConfigModule],
@@ -83,6 +83,7 @@ export class AppInitModule {
           useFactory: (config: ConfigService) => ({
             ttl: <number>config.get(APP_COMMON_CONFIG).throttle_ttl || 60,
             limit: <number>config.get(APP_COMMON_CONFIG).throttle_limit || 10,
+            storage: appInitOptions.throttlerOptions.storage || null,
           }),
         }),
       );

@@ -45,18 +45,84 @@ export class RedisService implements OnModuleInit, OnApplicationBootstrap {
 
     return {
       async set(key, path, json, opt): Promise<'OK' | null> {
-        const JsonKey = `${RedisStorePrefix.JsonStore}-${key}`;
-        const result = await client.json.set(JsonKey, path, json, opt || null);
+        const StoreKey = `${RedisStorePrefix.JsonStore}-${key}`;
+        const result = await client.json.set(StoreKey, path, json, opt || null);
         return result;
       },
       async get(key: string, path: string): Promise<RedisJSON> {
-        const JsonKey = `${RedisStorePrefix.JsonStore}-${key}`;
-        const result = await client.json.get(JsonKey, { path });
+        const StoreKey = `${RedisStorePrefix.JsonStore}-${key}`;
+        const result = await client.json.get(StoreKey, { path });
         return result;
       },
       async del(key, path: string): Promise<number> {
-        const JsonKey = `${RedisStorePrefix.JsonStore}-${key}`;
-        const result = await client.json.del(JsonKey, path);
+        const StoreKey = `${RedisStorePrefix.JsonStore}-${key}`;
+        const result = await client.json.del(StoreKey, path);
+        return <number>result;
+      },
+    };
+  }
+
+  async getStringStore(): Promise<RedisStringStore> {
+    const client = this.redisClient;
+
+    return {
+      async set(key, val, ttl): Promise<'OK' | null> {
+        const StoreKey = `${RedisStorePrefix.StringStore}-${key}`;
+        const result = await client.set(StoreKey, val, { EX: ttl || 0 });
+        return <'OK' | null>result;
+      },
+      async get(key: string): Promise<string | number | null> {
+        const StoreKey = `${RedisStorePrefix.StringStore}-${key}`;
+        const result = await client.get(StoreKey);
+        return <string | number | null>result;
+      },
+      async del(key): Promise<number> {
+        const StoreKey = `${RedisStorePrefix.StringStore}-${key}`;
+        const result = await client.del(StoreKey);
+        return <number>result;
+      },
+    };
+  }
+
+  async getJwtStore(): Promise<RedisStringStore> {
+    const client = this.redisClient;
+
+    return {
+      async set(key, val, ttl): Promise<'OK' | null> {
+        const StoreKey = `${RedisStorePrefix.JwtStore}-${key}`;
+        const result = await client.set(StoreKey, val, { EX: ttl || 0 });
+        return <'OK' | null>result;
+      },
+      async get(key: string): Promise<string | number | null> {
+        const StoreKey = `${RedisStorePrefix.JwtStore}-${key}`;
+        const result = await client.get(StoreKey);
+        return <string | number | null>result;
+      },
+      async del(key): Promise<number> {
+        const StoreKey = `${RedisStorePrefix.JwtStore}-${key}`;
+        const result = await client.del(StoreKey);
+        return <number>result;
+      },
+    };
+  }
+
+  async getThrottlerStore(): Promise<RedisStringStore> {
+    const client = this.redisClient;
+
+    return {
+      async set(key, val, ttl): Promise<'OK' | null> {
+        const StoreKey = `${RedisStorePrefix.throttlerStore}-${key}`;
+        const result = await client.set(StoreKey, val, { EX: ttl || 0 });
+        return <'OK' | null>result;
+      },
+      async get(key: string): Promise<string | number | null> {
+        const StoreKey = `${RedisStorePrefix.throttlerStore}-${key}`;
+        const result = await client.get(StoreKey);
+        return <string | number | null>result;
+      },
+      async del(key): Promise<number> {
+        const StoreKey = `${RedisStorePrefix.throttlerStore}-${key}`;
+        const result = await client.del(StoreKey);
         return <number>result;
       },
     };

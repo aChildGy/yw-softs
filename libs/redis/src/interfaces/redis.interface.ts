@@ -29,9 +29,17 @@ export type RedisJSON =
   | RedisJSONObject;
 
 export interface RedisStringStore {
-  set(key: string, val: string, ttl: number): void;
-  get(key: string): string;
-  del(key: string): void;
+  /**
+   * @param key 字符串的key
+   * @param val 字符串的值
+   * @param ttl 使用ex选项来设定有效时间，数据在指定秒数后失效
+   */
+  set(key: string, val: string | number, ttl?: number): Promise<'OK' | null>;
+  /**
+   * @param key 字符串的key
+   */
+  get(key: string): Promise<string | number | null>;
+  del(key: string): Promise<number>;
 }
 
 export interface RedisJSONStore {

@@ -20,5 +20,5 @@ export const RedisStorePrefix = {
   // JWT相关存储
   JwtStore: 'JwtStore',
   // 限流器相关存储
-  throttlerStore: 'throttlerStore',
+  throttlerStore: 'ThrottlerStore',
 };

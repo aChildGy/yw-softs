@@ -65,7 +65,9 @@ import { RedisModule } from '@app/redis';
         playground: true,
       },
       // 限流模块
-      throttler: true,
+      throttlerOptions: {
+        storage: null,
+      },
     }),
 
     DatabasesModule.register([

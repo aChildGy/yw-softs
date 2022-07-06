@@ -15,14 +15,37 @@ import { CryptoUtils } from '@app/utils';
 import { RedisService } from '@app/redis/redis.service';
 import { LoginResp } from './dto/login-resp.model';
 import { LoginInput } from './dto/login.input';
+import { OnApplicationBootstrap } from '@nestjs/common';
 
 @Resolver(() => User)
-export class UsersResolver {
+export class UsersResolver implements OnApplicationBootstrap {
   constructor(
     private readonly usersService: UsersService, // private readonly redisService: RedisService,
     private authService: AuthService,
     private readonly redisService: RedisService,
   ) {}
+  async onApplicationBootstrap() {
+    // const JsonStore = await this.redisService.getJsonStore();
+    // const { detailInfo, roles, ...obj } = { ...reqCtx.user };
+    // const result = await JsonStore.set(`user-${reqCtx.user.id}`, '$', {
+    //   ...obj,
+    // });
+    // console.log('----------1----------', result);
+    // console.log(
+    //   '----------2----------',
+    //   await JsonStore.get(`user-${reqCtx.user.id}`, '$.createdAt'),
+    // );
+    // console.log(
+    //   '----------333----------',
+    //   await JsonStore.del(`user-${reqCtx.user.id}`, '$.roles[0].*'),
+    // );
+    // const StringStore = await this.redisService.getThrottlerStore();
+    // console.log(await StringStore.set('key', 'value', 10));
+    // console.log(await StringStore.get('key'));
+    // console.log(await StringStore.del('key'));
+    // console.log(await StringStore.get('key'));
+    // console.log(await StringStore.del('key'));
+  }
 
   /**
    * 注册用户接口
@@ -45,7 +68,7 @@ export class UsersResolver {
 
   /**
    * 登录接口
-   * @param createUserInput
+   * @param loginData
    * @returns
    */
   @Query(() => LoginResp)
@@ -72,24 +95,6 @@ export class UsersResolver {
     @Args('id', { type: () => Int }) id: number,
     @GqlRequestCtx() reqCtx: IRequestCtx<User>,
   ) {
-    // const JsonStore = await this.redisService.getJsonStore();
-    // const { detailInfo, roles, ...obj } = { ...reqCtx.user };
-    // const result = await JsonStore.set(`user-${reqCtx.user.id}`, '$', {
-    //   ...obj,
-    // });
-
-    // console.log('----------1----------', result);
-
-    // console.log(
-    //   '----------2----------',
-    //   await JsonStore.get(`user-${reqCtx.user.id}`, '$.createdAt'),
-    // );
-
-    // console.log(
-    //   '----------333----------',
-    //   await JsonStore.del(`user-${reqCtx.user.id}`, '$.roles[0].*'),
-    // );
-
     reqCtx.logger.log(`----------UsersResolver.findOne`, UsersResolver.name);
     return this.usersService.findOne(reqCtx, id);
   }
